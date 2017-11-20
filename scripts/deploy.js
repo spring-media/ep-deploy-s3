@@ -6,7 +6,6 @@ const async = require('async');
 const chalk = require('chalk');
 const argv = require('yargs').argv;
 
-
 /* ****************************************
  *
  * Config
@@ -15,7 +14,6 @@ const argv = require('yargs').argv;
 
 const configFile = path.resolve('./ep-deployment.json');
 const config = getConfig(configFile);
-
 
 /* ****************************************
  *
@@ -47,7 +45,6 @@ Promise.resolve()
         console.log('\n' + chalk.green('Finished successfully') + '\n');
         process.exit(0);
     });
-
 
 /* ****************************************
  *
@@ -177,7 +174,7 @@ function removeFromS3(files, bucket, remoteDir) {
  */
 function uploadToS3(localDir, bucket, remoteDir) {
     return new Promise(function (resolve, reject) {
-        console.log('\nUploading local director to ' + bucket + '/' + remoteDir);
+        console.log('\nUploading local directory to ' + bucket + '/' + remoteDir);
         remoteDir = remoteDir || '';
 
         const awsS3Client = new AWS.S3({
