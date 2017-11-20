@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import AWS from 'aws-sdk';
-import s3 from 's3';
-import series from 'async/series';
 import chalk from 'chalk';
 import { argv } from 'yargs';
 
