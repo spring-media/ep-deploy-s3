@@ -210,12 +210,12 @@ async function copyFolderContentsToBucket(awsS3Client, bucket, prefix, rootFolde
         const fileIsDirectory = fs.lstatSync(pathToFileInRootFolder).isDirectory();
 
         if (fileIsDirectory) {
-            await copyFolderContentsToBucket(awsS3Client, bucket, rootFolder, pathToFileInSubFolder)
+            await copyFolderContentsToBucket(awsS3Client, bucket, prefix, rootFolder, pathToFileInSubFolder)
         } else {
             const Bucket = bucket;
             const Key = prefix ? `${prefix}/${pathToFileInSubFolder}` : pathToFileInSubFolder;
             const Body = fs.readFileSync(pathToFileInRootFolder);
-            await awsS3Client.putObject({ Bucket, Key, Body }).promise()
+            await awsS3Client.putObject({ Bucket, Key, Body }).promise();
             process.stdout.write('.');
         }
     }

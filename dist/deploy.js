@@ -214,7 +214,7 @@ let copyFolderContentsToBucket = (() => {
             const fileIsDirectory = _fs2.default.lstatSync(pathToFileInRootFolder).isDirectory();
 
             if (fileIsDirectory) {
-                yield copyFolderContentsToBucket(awsS3Client, bucket, rootFolder, pathToFileInSubFolder);
+                yield copyFolderContentsToBucket(awsS3Client, bucket, prefix, rootFolder, pathToFileInSubFolder);
             } else {
                 const Bucket = bucket;
                 const Key = prefix ? `${prefix}/${pathToFileInSubFolder}` : pathToFileInSubFolder;
