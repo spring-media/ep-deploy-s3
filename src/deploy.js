@@ -86,6 +86,12 @@ function getConfig() {
     const bucket = bucketAndPath.shift();
     const remoteDir = bucketAndPath.join('/');
 
+    if (remoteDir === '' && !argv['sync-to-bucket-root']) {
+        throw new Error('You are trying to sync to the bucket root (not in a subfolder of the bucket).\n' +
+                'Please add --sync-to-bucket-root to signal you are absolutely sure you are willing to do this.\n' +
+                'Warning: All contents of the bucket will be deleted and synced with your local folder');
+    }
+
     return {
         localDir: path.resolve(config.dir),
         bucket: bucket,
