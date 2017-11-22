@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,16 +101,14 @@ module.exports = require("yargs");
 /* 4 */,
 /* 5 */,
 /* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 const fs = __webpack_require__(0);
-const glob = __webpack_require__(10)({ gitignore: true });
+const glob = __webpack_require__(8)({ gitignore: true });
 const chalk = __webpack_require__(2);
 const argv = __webpack_require__(3).argv;
 const path = __webpack_require__(1);
@@ -172,7 +170,7 @@ function replaceEnvVars(inputFile) {
 }
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("glob-fs");

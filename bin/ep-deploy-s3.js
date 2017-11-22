@@ -11,7 +11,7 @@ switch (script) {
     case 'deploy': {
         const result = spawn.sync(
             'node',
-            [require.resolve(`../scripts/${script}`)].concat(args),
+            [require.resolve(`../dist/${script}`)].concat(args),
             { stdio: 'inherit' }
         );
         if (result.signal) {

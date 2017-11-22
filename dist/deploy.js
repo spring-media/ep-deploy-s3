@@ -242,19 +242,13 @@ var _awsSdk = __webpack_require__(5);
 
 var _awsSdk2 = _interopRequireDefault(_awsSdk);
 
-var _s = __webpack_require__(6);
-
-var _s2 = _interopRequireDefault(_s);
-
-var _series = __webpack_require__(7);
-
-var _series2 = _interopRequireDefault(_series);
-
 var _chalk = __webpack_require__(2);
 
 var _chalk2 = _interopRequireDefault(_chalk);
 
 var _yargs = __webpack_require__(3);
+
+var _jsonfile = __webpack_require__(6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -266,8 +260,16 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
  *
  **************************************** */
 
-const configFile = _path2.default.resolve('./ep-deployment.json');
-const config = getConfig(configFile);
+console.log(`\n${_chalk2.default.blue('info')} Loading config`);
+
+let config;
+
+try {
+    config = getConfig();
+} catch (err) {
+    console.log(`\n${_chalk2.default.red('error')} Failed to load config. Got error: ${err.message}`);
+    process.exit(1);
+}
 
 /* ****************************************
  *
@@ -275,17 +277,7 @@ const config = getConfig(configFile);
  *
  **************************************** */
 
-console.log('\nLoading config');
-
-if (_fs2.default.existsSync(configFile)) {
-    console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Found config file in ' + configFile));
-}
-
-if (_yargs.argv.dir || _yargs.argv.bucket) {
-    console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Got command line arguments for dir/bucket'));
-}
-
-console.log('\nUsing config');
+console.log(`\n${_chalk2.default.blue('info')} Using config`);
 console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Local Dir: ' + config.localDir));
 console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Bucket Name: ' + config.bucket));
 console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Bucket Dir: ' + (config.remoteDir || '/')));
@@ -307,31 +299,40 @@ sync(config.localDir, config.bucket, config.remoteDir).then(() => {
  **************************************** */
 
 /**
- * Quits the node app and prints an error message
- * Used for config methods that are not part of the sync promise
- * @param message
- */
-function exitWithError(message) {
-    console.log(`\n${_chalk2.default.red('error')} ${message}`);
-    process.exit(1);
-}
-
-/**
  * Returns the merged configs from the file and the argv arguments
- * @param {string} configFile Path to the config file
  * @returns {{localDir: string, bucket: string, remoteDir: string}}
  */
-function getConfig(configFile) {
+function getConfig() {
+
+    const configFile = _path2.default.resolve('./ep-deployment.json');
+    const configFileExists = _fs2.default.existsSync(configFile);
+
+    if (configFileExists && !_yargs.argv.stage) {
+        throw new Error('Config file exists but no stage has been set via cli argument. Please specify --stage');
+    } else if (configFileExists) {
+        console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Found config file in ' + configFile));
+    } else {
+        console.log(_chalk2.default.blue('info') + _chalk2.default.dim(' No config file found expecting command line arguments'));
+    }
+
+    if (_yargs.argv.dir || _yargs.argv.bucket) {
+        console.log(' ' + _chalk2.default.green('✓') + _chalk2.default.dim(' Got command line arguments for dir/bucket'));
+    }
+
     const config = Object.assign({}, readConfigFromJson(configFile), readConfigFromArgv());
+
     if (!config.dir) {
-        exitWithError('No directory specified');
+        throw new Error('No directory specified');
     }
+
     if (!config.bucket) {
-        exitWithError('No bucket specified');
+        throw new Error('No bucket specified');
     }
+
     const bucketAndPath = config.bucket.split('/');
     const bucket = bucketAndPath.shift();
     const remoteDir = bucketAndPath.join('/');
+
     return {
         localDir: _path2.default.resolve(config.dir),
         bucket: bucket,
@@ -345,11 +346,12 @@ function getConfig(configFile) {
  */
 function readConfigFromJson(configFile) {
     if (!_yargs.argv.stage) {
-        exitWithError('No stage specified, please call ep-deploy-s3 with --stage dev or --stage prod');
+        throw new Error('No stage specified, please call ep-deploy-s3 with --stage dev or --stage prod');
     }
     try {
-        return !(function webpackMissingModule() { var e = new Error("Cannot find module \".\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())[_yargs.argv.stage];
+        return (0, _jsonfile.readFileSync)(configFile)[_yargs.argv.stage];
     } catch (e) {
+        console.log(`${_chalk2.default.blue('info')} no config file found`);
         return {};
     }
 }
@@ -375,25 +377,7 @@ module.exports = require("aws-sdk");
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = require("s3");
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-module.exports = require("async/series");
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-function webpackEmptyContext(req) {
-	throw new Error("Cannot find module '" + req + "'.");
-}
-webpackEmptyContext.keys = function() { return []; };
-webpackEmptyContext.resolve = webpackEmptyContext;
-module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 8;
+module.exports = require("jsonfile");
 
 /***/ })
 /******/ ]);
