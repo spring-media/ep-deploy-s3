@@ -13,7 +13,7 @@ Simply add `ep-deploy-s3` as a dependency using `npm` or `yarn`:
 
 ## Deploy Script
 
-###Setup
+### Setup
 
 To use the deploy script it's a best practice (although not necessary) to add a file called `ep-deployment.json` in
 your root folder (next to your `package.json`). An example file would look like this (taken from the
