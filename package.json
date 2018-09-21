@@ -7,12 +7,11 @@
   "dependencies": {
     "async": "^2.5.0",
     "async-es": "^2.6.0",
-    "aws-sdk": "^2.102.0",
-    "chalk": "^2.1.0",
+    "aws-sdk": "2.319.0",
+    "chalk": "2.4.1",
     "cross-spawn": "^5.1.0",
     "glob-fs": "^0.1.7",
     "jsonfile": "^4.0.0",
-    "s3": "^4.4.0",
     "yargs": "^8.0.2"
   },
   "bin": {
