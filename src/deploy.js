@@ -97,8 +97,9 @@ function getConfig () {
 
   return {
     localDir: path.resolve(config.dir),
-    bucket: bucket,
-    remoteDir: remoteDir
+    bucket,
+    remoteDir,
+    putParams: config.putParams
   }
 }
 

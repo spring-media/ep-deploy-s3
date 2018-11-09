@@ -338,8 +338,9 @@ function getConfig() {
 
   return {
     localDir: _path2.default.resolve(config.dir),
-    bucket: bucket,
-    remoteDir: remoteDir
+    bucket,
+    remoteDir,
+    putParams: config.putParams
   };
 }
 
