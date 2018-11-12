@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals')
 module.exports = {
   entry: {
     deploy: './src/deploy.js',
-    environment: './src/environments.js'
+    environments: './src/environments.js'
   },
   output: {
     filename: '[name].js',

@@ -7,7 +7,7 @@
 		exports["ep-deploy-s3"] = factory();
 	else
 		root["ep-deploy-s3"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
