@@ -23,19 +23,27 @@ _ep-cue-plugin-content-lock_ project):
 {
     "dev": {
         "dir": "./build",
+        "putParams": {
+            "CacheControl": "max-age=60"
+        },
         "bucket": "ep-cue-plugins-dev/ep-cue-plugin-content-lock"
     },
     "prod": {
         "dir": "./build",
+        "putParams": {
+            "CacheControl": "max-age=3600"
+        },
         "bucket": "ep-cue-plugins-prod/ep-cue-plugin-content-lock"
     }
 }
 ```
 
 The root path contains 2 entries `dev` and `prod`. These are the 2 environments for which you can enter separate
-S3 Buckets and / or directories. Each entry contains 2 fields `dir` and `bucket`. The _dir_ field specifies the 
+S3 Buckets and / or directories. Each entry contains 2 required fields `dir` and `bucket`. The _dir_ field specifies the 
 local folder that should be uploaded to S3, the _bucket_ field contains the S3 bucket and (optionally) a subfolder
-in the bucket to sync the local folder to. The bucket name and the folder are separated by a forward slash `/`.
+in the bucket to sync the local folder to. The bucket name and the folder are separated by a forward slash `/`. \
+`putParams` is a optional field and sets put parameter for all files ([putObject parameters are described in aws-sdk JavaScript dokumentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property)) 
+
 E.g.:
 
 A single name as _bucket_ will sync the local folder with that bucket:
